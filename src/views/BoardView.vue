@@ -1,8 +1,14 @@
 <script setup>
   import { useRoute } from 'vue-router';
-  import { computed } from 'vue';
+  import { computed, ref } from 'vue';
+  import { useInfiniteScroll } from '@vueuse/core';
+  import axios from 'axios';
 
   const route = useRoute();
+  const articles = ref([]);
+  const scrollContainer = ref(null);
+
+  const board = route.params.board;
 
   const boardTitle = computed(() => {
     const titles = {
@@ -11,63 +17,24 @@
       'homework': '作業板'
     }
 
-    return titles[route.params.board];
+    return titles[board];
   });
 
-  console.log(boardTitle);
+  useInfiniteScroll(scrollContainer, async () => {
+    const newArticles = axios.get(`/api`, {
+      params: {
+        limit: 30, 
+        board: board, 
+        start: 0
+      }});
+    articles.value.push(...newArticles);
+  }, {direction: 20});
 </script>
 
 <template>
   <h1>{{ boardTitle }}</h1>
-  <div id="articles">
-    <article>
-      <p class="article-title">教我這題怎麼寫</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">我失戀了</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">欸好酷喔這是啥</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">教我這題怎麼寫</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">我失戀了</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">欸好酷喔這是啥</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">教我這題怎麼寫</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">我失戀了</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">欸好酷喔這是啥</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">教我這題怎麼寫</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">我失戀了</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
-    <article>
-      <p class="article-title">欸好酷喔這是啥</p>
-      <p class="article-time">2026/1/10 下午11:38:25</p>
-    </article>
+  <div ref="scrollContainer" id="articles">
+    
   </div>
 </template>
 

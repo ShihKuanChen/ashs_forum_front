@@ -22,13 +22,13 @@
   .navbar {
     background-color: rgb(24, 24, 24);
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     border-bottom: 1px solid #3b3b3b;
     position: fixed;
     /* width: 80%; */
     top: 0;
-    left: 1.2rem;
-    right: 1.2rem;
+    left: 1.55rem;
+    right: 1.55rem;
     /* margin-bottom: 20rem; */
   }
 
