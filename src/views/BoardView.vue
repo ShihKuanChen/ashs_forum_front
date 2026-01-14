@@ -8,8 +8,10 @@
   const articles = ref([]);
   const scrollContainer = ref(null);
 
+  // get board 
   const board = route.params.board;
 
+  // get chinese title
   const boardTitle = computed(() => {
     const titles = {
       'chat': '閒聊板',
@@ -20,21 +22,41 @@
     return titles[board];
   });
 
-  useInfiniteScroll(scrollContainer, async () => {
-    const newArticles = axios.get(`/api`, {
+  // set InfiniteScroll
+  const { pause, resume, isActive } = useInfiniteScroll(scrollContainer, async () => {
+    console.log(`loading`);
+    pause();
+    axios.get(`/api`, {
       params: {
         limit: 30, 
         board: board, 
-        start: 0
-      }});
-    articles.value.push(...newArticles);
+        start: -1 // must change
+      }}).then(response => {
+        if (response.data.length === 0) {
+          console.log('no more articles');
+          
+        } else {
+          articles.value.push(...response.data);
+          console.log(articles.value);
+          resume();
+        }
+      }).catch(error => {
+        console.log(error);
+      });
+
+    // articles.value.push(...newArticles);
   }, {direction: 20});
+
+
 </script>
 
 <template>
   <h1>{{ boardTitle }}</h1>
-  <div ref="scrollContainer" id="articles">
-    
+  <div ref="scrollContainer" id="articles" v-for="article in articles">
+    <article :id=article.article_id>
+      <h1 class="article-title"> {{ article.article_title }} </h1>
+      <p class="article-title"> {{ article.article_upload_time }} </p>
+    </article>
   </div>
 </template>
 

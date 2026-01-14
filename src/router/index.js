@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import BoardView from '@/views/BoardView.vue'
 import LoginView from '@/views/LoginView.vue'
+import ArticleView from '@/views/ArticleView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,10 @@ const router = createRouter({
     path: '/:board(chat|love|homework)',
     name: 'board',
     component: BoardView
+  }, {
+    path: '/article/:id',
+    name: 'article',
+    component: ArticleView
   }, { 
     path: '/:pathMatch(.*)*', 
     redirect: '/' 
