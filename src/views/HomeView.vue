@@ -13,4 +13,9 @@
   <p>違規者將刪除文章並永久封禁，嚴重者依校規處置。</p>
 </template>
 
-<style></style>
+<style>
+  h1 {
+    font-size: 1.5rem;
+  }
+
+</style>

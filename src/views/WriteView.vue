@@ -1,5 +1,5 @@
 <script setup>
-  import useRouter from 'vue-router';
+  import {useRouter} from 'vue-router';
   import axios from 'axios';
 
   const router = useRouter();
@@ -9,8 +9,11 @@
 
   })
   .catch(error => {
-  //   console.log(error);
     router.replace('/login');
   });
 
 </script>
+
+<template>
+  <textarea></textarea>
+</template>

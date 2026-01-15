@@ -4,6 +4,8 @@ import AboutView from '@/views/AboutView.vue'
 import BoardView from '@/views/BoardView.vue'
 import LoginView from '@/views/LoginView.vue'
 import ArticleView from '@/views/ArticleView.vue'
+import axios from 'axios'
+import WriteView from '@/views/WriteView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +22,13 @@ const router = createRouter({
     name: 'login',
     component: LoginView
   }, {
+    path: '/logout',
+    name: 'logout',
+    beforeEnter: (to, from) => {
+      axios.post('/api/logout');
+    },
+    redirect: '/'
+  }, {
     path: '/:board(chat|love|homework)',
     name: 'board',
     component: BoardView
@@ -27,7 +36,11 @@ const router = createRouter({
     path: '/article/:id',
     name: 'article',
     component: ArticleView
-  }, { 
+  }, {
+    path: '/write',
+    name: 'write',
+    component: WriteView
+  }, , { 
     path: '/:pathMatch(.*)*', 
     redirect: '/' 
   }],

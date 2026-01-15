@@ -1,9 +1,20 @@
 <script setup>
-const callback = (response) => {
-  // This callback will be triggered when the user selects or login to
-  // his Google account from the popup
-  console.log("Handle the response", response)
-}
+  import axios from 'axios';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+
+  const callback = (response) => {
+    axios.post('/api/login', {
+      token: response['credential']
+    }).then(response => {
+      router.replace('/');
+    }).catch(error => {
+      console.log(error);
+    });
+
+    // response['credential']
+  }
 </script>
 
 <template>

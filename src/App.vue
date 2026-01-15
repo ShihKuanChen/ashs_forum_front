@@ -16,7 +16,7 @@
 </template>
 
 <style>
-  html {
+  :root {
     color: rgb(236, 236, 236);
     background-color:rgb(24, 24, 24);
     
@@ -28,16 +28,20 @@
     font-style: normal;
   }
 
+  
+</style>
+
+<style scoped>
+  .app-container {
+    padding: 3rem 1.2rem 3rem 1.2rem;
+  }
+
   h1 {
     font-size: 1.5rem;
   }
 
   h2 {
     font-size: 1rem;
-  }
-
-  .app-container {
-    padding: 3rem 1.2rem 3rem 1.2rem;
   }
 
 </style>

@@ -1,4 +1,16 @@
-<script setup></script>
+<script setup>
+  import axios from 'axios';
+  import { ref } from 'vue';
+
+  const is_logged_in = ref(false);
+  axios.get('/api/is_logged_in')
+  .then(response => {
+    is_logged_in.value = true;
+  }).catch(error => {
+    is_logged_in.value = false;
+  });
+
+</script>
 
 <template>
   <nav class="navbar">
@@ -8,16 +20,18 @@
         <li><RouterLink to="/chat" class="nav-link">閒聊</RouterLink></li>
         <li><RouterLink to="/love" class="nav-link">感情</RouterLink></li>
         <li><RouterLink to="/homework" class="nav-link">作業</RouterLink></li>
+        <li><RouterLink to="/write" class="nav-link">投稿</RouterLink></li>
         <li><RouterLink to="/about" class="nav-link">關於</RouterLink></li>
-        <li><RouterLink to="/login" class="nav-link">登入</RouterLink></li>
+        <li><RouterLink to="/login" class="nav-link" v-if="!is_logged_in">登入</RouterLink></li>
+        <li><RouterLink to="/logout" class="nav-link" v-if="is_logged_in">登出</RouterLink></li>
     </ul>
   </nav>
 </template>
 
-<style>
-  /* RouterLink {
-    
-  } */
+<style scoped>
+  h2 {
+    font-size: 1rem;
+  }
   
   .navbar {
     background-color: rgb(24, 24, 24);
