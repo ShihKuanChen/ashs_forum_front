@@ -1,11 +1,18 @@
 <script setup>
   import axios from 'axios';
   import { useRouter } from 'vue-router';
+  import { useLoginStore } from '../../stores/LoginStore';
 
   const router = useRouter();
+  const loginStore = useLoginStore();
+  const { checkLogin } = loginStore;
 
-  const callback = (response) => {
-    axios.post('/api/login', {
+
+  const callback = async (response) => {
+    console.log(response);
+
+    // call login api
+    await axios.post('/api/login', {
       token: response['credential']
     }).then(response => {
       router.replace('/');
@@ -13,7 +20,8 @@
       console.log(error);
     });
 
-    // response['credential']
+    // update login status
+    checkLogin();
   }
 </script>
 

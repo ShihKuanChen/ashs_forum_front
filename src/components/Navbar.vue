@@ -1,14 +1,22 @@
 <script setup>
   import axios from 'axios';
   import { ref } from 'vue';
+  import { useLoginStore } from '../../stores/LoginStore';
+  import { storeToRefs } from 'pinia';
+  import { useRouter } from 'vue-router';
 
-  const is_logged_in = ref(false);
-  axios.get('/api/is_logged_in')
-  .then(response => {
-    is_logged_in.value = true;
-  }).catch(error => {
-    is_logged_in.value = false;
-  });
+  const router = useRouter();
+  
+  const loginStore = useLoginStore();
+  const { isLogin } = storeToRefs(loginStore);
+  const { checkLogin } = loginStore;
+
+  async function logout() {
+    await axios.post('/api/logout');
+    await checkLogin();
+    
+    router.replace('/');
+  }
 
 </script>
 
@@ -22,8 +30,10 @@
         <li><RouterLink to="/homework" class="nav-link">作業</RouterLink></li>
         <li><RouterLink to="/write" class="nav-link">投稿</RouterLink></li>
         <li><RouterLink to="/about" class="nav-link">關於</RouterLink></li>
-        <li><RouterLink to="/login" class="nav-link" v-if="!is_logged_in">登入</RouterLink></li>
-        <li><RouterLink to="/logout" class="nav-link" v-if="is_logged_in">登出</RouterLink></li>
+        <li>
+          <RouterLink v-if="!isLogin" to="/login" class="nav-link">登入</RouterLink>
+          <a v-else class="nav-link" @click="logout()">登出</a>
+        </li>
     </ul>
   </nav>
 </template>
@@ -53,6 +63,7 @@
     list-style: none;
     display: flex;
     padding-left: 0;
+    cursor: pointer;
   }
 
   .nav-links li {

@@ -81,7 +81,7 @@
   <div ref="scrollContainer" class="scrollContainer">
     <div v-for="article in articles" id="articles" :key="article.article_id" @click="routeToArticle(article.article_id)">
       <article :id=article.article_id>
-        <h1 class="article-title"> {{ article.article_title }} </h1>
+        <p class="article-title"> {{ article.article_title }} </p>
         <p class="article-time"> {{ article.article_upload_time }} </p>
       </article>
     </div>
@@ -92,21 +92,25 @@
   .board-title {
     font-size: 1.5rem;
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 0.2rem;
+    /* padding-bottom: 0.1rem; */
+    /* border-bottom: 1px solid #3b3b3b; */
   }
 
   .article-title {
     /* white-space: pre-wrap; */
 
-    margin-top: 3px;
+    margin-top: 0.1rem;
     margin-bottom: 0;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    /* font-weight: 600; */
   }
 
   .article-time {
-    margin-top: 0px;
-    margin-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 0.15rem;
     font-size: 0.7rem;
+    /* font-weight: 600; */
   }
 
   .scrollContainer {

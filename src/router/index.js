@@ -6,6 +6,9 @@ import LoginView from '@/views/LoginView.vue'
 import ArticleView from '@/views/ArticleView.vue'
 import axios from 'axios'
 import WriteView from '@/views/WriteView.vue'
+import { useLoginStore } from '../../stores/LoginStore'
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,7 +28,13 @@ const router = createRouter({
     path: '/logout',
     name: 'logout',
     beforeEnter: (to, from) => {
+      console.log('logout');
+      const loginStore = useLoginStore();
+      const { checkLogin } = loginStore;
+
       axios.post('/api/logout');
+      
+      checkLogin();
     },
     redirect: '/'
   }, {
