@@ -1,6 +1,12 @@
 <script setup>
   import {RouterView} from 'vue-router'
   import Navbar from './components/Navbar.vue'
+  import { useLoginStore } from '../stores/LoginStore';
+
+  const loginStore = useLoginStore();
+  const { checkLogin } = loginStore;
+
+  checkLogin();
 </script>
 
 <template>
@@ -22,12 +28,26 @@
     
     /* font setting */
     font-size: clamp(8px, 4vw, 24px);
-    font-family: "Noto Sans TC", sans-serif;
+    
     font-optical-sizing: auto;
     /* font-weight: <weight>; */
     font-style: normal;
   }
 
+  * {
+    font-family: "Chiron Hei HK", sans-serif;
+    color: rgb(236, 236, 236);
+  }
+
+  .btnDisabled {
+    color: rgb(80, 80, 80);
+    cursor: default;
+  }
+
+  .btnEnabled {
+    /* color: rgb(80, 80, 80); */
+    cursor: pointer;
+  }
   
 </style>
 

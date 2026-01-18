@@ -4,10 +4,10 @@ import AboutView from '@/views/AboutView.vue'
 import BoardView from '@/views/BoardView.vue'
 import LoginView from '@/views/LoginView.vue'
 import ArticleView from '@/views/ArticleView.vue'
+import BoardsView from '@/views/BoardsView.vue'
 import axios from 'axios'
 import WriteView from '@/views/WriteView.vue'
 import { useLoginStore } from '../../stores/LoginStore'
-
 
 
 const router = createRouter({
@@ -38,7 +38,11 @@ const router = createRouter({
     },
     redirect: '/'
   }, {
-    path: '/:board(chat|love|homework)',
+    path: '/boards',
+    name: 'boards',
+    component: BoardsView
+  }, {
+    path: '/:board',
     name: 'board',
     component: BoardView
   }, {

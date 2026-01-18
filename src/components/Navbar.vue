@@ -25,9 +25,7 @@
     <h2 class="web_title"><RouterLink to="/" class="web_title_text">高師大附中匿名板</RouterLink></h2>
 
     <ul class="nav-links">
-        <li><RouterLink to="/chat" class="nav-link">閒聊</RouterLink></li>
-        <li><RouterLink to="/love" class="nav-link">感情</RouterLink></li>
-        <li><RouterLink to="/homework" class="nav-link">作業</RouterLink></li>
+        <li><RouterLink to="/boards" class="nav-link">討論板</RouterLink></li>
         <li><RouterLink to="/write" class="nav-link">投稿</RouterLink></li>
         <li><RouterLink to="/about" class="nav-link">關於</RouterLink></li>
         <li>
@@ -63,7 +61,6 @@
     list-style: none;
     display: flex;
     padding-left: 0;
-    cursor: pointer;
   }
 
   .nav-links li {
@@ -71,6 +68,7 @@
     display: flex;
     align-items: center;
     margin-left: 1rem;
+    cursor: pointer;
   }
 
   .nav-links .nav-link {

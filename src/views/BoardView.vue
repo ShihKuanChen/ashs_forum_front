@@ -1,6 +1,6 @@
 <script setup>
   import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
-  import { computed, ref } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import { useInfiniteScroll } from '@vueuse/core';
   import axios from 'axios';
 
@@ -10,18 +10,18 @@
   const scrollContainer = ref(null);
 
   // get board 
-  const board = ref(route.params.board);
+  const board = route.params.board;
+  const board_zh = ref('');
 
+  onMounted(async () => {
+    // get board chinese title
+    const newBoardTitle = await axios.get(`/api/board_zh`, {
+      params: {
+        board: board
+      }
+    });
 
-  // get chinese title
-  const boardTitle = computed(() => {
-    const titles = {
-      'chat': '閒聊板',
-      'love': '感情板',
-      'homework': '作業板'
-    }
-
-    return titles[board.value];
+    board_zh.value = newBoardTitle.data['board_zh'];
   });
 
   // set InfiniteScroll
@@ -37,7 +37,7 @@
       await axios.get(`/api`, {
         params: {
           limit: 30, 
-          board: board.value, 
+          board: board, 
           last_id: lastArticleId.value // must change
         }}).then(response => {
           console.log(response.data);
@@ -77,7 +77,7 @@
 </script>
 
 <template>
-  <h1 class="board-title">{{ boardTitle }}</h1>
+  <h1 class="board-title">{{ board_zh }}</h1>
   <div ref="scrollContainer" class="scrollContainer">
     <div v-for="article in articles" id="articles" :key="article.article_id" @click="routeToArticle(article.article_id)">
       <article :id=article.article_id>
@@ -85,31 +85,50 @@
         <p class="article-time"> {{ article.article_upload_time }} </p>
       </article>
     </div>
+    <div class="noMoreContainer">
+      <p class="noMore">沒有更多文章了</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
+  .noMoreContainer {
+    display: grid;
+  }
+
+  .noMore {
+    margin-top: 1rem;
+    justify-self: center;
+    font-size: 0.7rem;
+    color: rgb(161, 161, 161);
+  }
+
   .board-title {
-    font-size: 1.5rem;
-    margin-top: 0;
-    margin-bottom: 0.2rem;
+    /* font-size: 1.5rem; */
+    /* margin-top: 0; */
+    margin-bottom: 0.8rem;
     /* padding-bottom: 0.1rem; */
     /* border-bottom: 1px solid #3b3b3b; */
   }
 
   .article-title {
     /* white-space: pre-wrap; */
+    justify-self: start;
+    align-self: start;
 
-    margin-top: 0.1rem;
+    margin-top: 0.5rem;
     margin-bottom: 0;
-    font-size: 0.9rem;
-    /* font-weight: 600; */
+    font-size: 1.1rem;
+    font-weight: 600;
   }
 
   .article-time {
+    justify-self: end;
+    align-self: end;
+
     margin-top: 0;
-    margin-bottom: 0.15rem;
-    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
     /* font-weight: 600; */
   }
 
@@ -119,11 +138,13 @@
   }
 
   article {
-    display: flex;
+    display: grid;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     border-bottom: 1px solid #3b3b3b;
     cursor: pointer;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     /* align-items: center; */
   }
 
